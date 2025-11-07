@@ -1,0 +1,32 @@
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - errcheck
+    - gosimple
+    - ineffassign
+    - typecheck
+    - gocritic
+    - forbidigo     # optional: forbid bare reflect usage except where allowed
+    - ruleguard
+
+linters-settings:
+  ruleguard:
+    rules:
+      - lint/rules/reflect_safety.rules
+  forbidigo:
+    forbid:
+      - p: 'reflect\..*'
+        msg: "Direct reflect usage is risky. Prefer generics or wrap in well-tested helpers. If you must, add `//lint:allow reflect`."
+        # Allow in specific files or with an inline pragma:
+        # exclude_godoc_examples: true
+    analyze-types: true
+
+issues:
+  exclude-rules:
+    - linters: [forbidigo]
+      text: "lint:allow reflect" # inline override comment
