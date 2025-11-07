@@ -1,4 +1,4 @@
-// Package clibind provides a tag/reflect-based mapper between urfave/cli/v2 flags and a struct.
+// Package clibind provides a tag/reflect-based mapper between urfave/cli/v3 flags and a struct.
 // Usage:
 //
 //	type Config struct {
@@ -323,6 +323,8 @@ func CommandWithBinding[T any](
 	if base == nil {
 		base = &cli.Command{}
 	}
+	var t T
+	base.Flags = FlagsFromStruct(t)
 	base.Action = WithBinding(fn)
 	base.Name = name
 	return base
