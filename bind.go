@@ -25,7 +25,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"strconv"
 	"strings"
@@ -109,7 +108,6 @@ func bindStruct(ctx *cli.Command, t reflect.Type, prefix string) (vp *reflect.Va
 			return nil, fmt.Errorf("set field %s value: %w", sf.Name, err)
 		}
 		defined = true
-		log.Printf("set value to %s: %v", name, fv.String())
 	}
 	if defined {
 		return &v, nil
@@ -119,8 +117,6 @@ func bindStruct(ctx *cli.Command, t reflect.Type, prefix string) (vp *reflect.Va
 
 // setFieldValue reads a CLI flag and sets the corresponding struct field.
 func setFieldValue(ctx *cli.Command, name string, sf reflect.StructField, field reflect.Value) error {
-	log.Printf("field %s value %v", name, ctx.String(name))
-
 	t := unreferenceType(sf.Type)
 
 	switch {
